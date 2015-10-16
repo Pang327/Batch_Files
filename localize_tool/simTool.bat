@@ -91,28 +91,29 @@ goto :eof
 :pickup 
 set stl=%1
 
-::avoiding string is null
+::avoid input string is null, exception handling
 if "%stl%"=="" goto :eof
-    if "%stl:~0,1%"=="%input:~0,1%" (
-        echo %stl%
-        echo %stl% | find "-" > nul
+
+if "%stl:~0,1%"=="%input:~0,1%" (
+    echo %stl%
+    echo %stl% | find "-" > nul
+    if not errorlevel 1 (
+        echo %stl% | find "FA" > nul
         if not errorlevel 1 (
-            echo %stl% | find "FA" > nul
+            set input=%input:~1% && echo genfax) else (
+            set input=%input:~1% && echo gen
+        )
+    ) else (
+        echo %stl% | find "FA" > nul
+        if not errorlevel 1 (
+            set input=%input:~1% && echo ownfax) else (
+            echo %stl% | find "PKI" > nul
             if not errorlevel 1 (
-                set input=%input:~1% && echo genfax) else (
-                set input=%input:~1% && echo gen
-            )
-        ) else (
-            echo %stl% | find "FA" > nul
-            if not errorlevel 1 (
-                set input=%input:~1% && echo ownfax) else (
-                echo %stl% | find "PKI" > nul
-                if not errorlevel 1 (
-                    set input=%input:~1% && echo pki) else (
-                    set input=%input:~1% && echo own
-                )
+                set input=%input:~1% && echo pki) else (
+                set input=%input:~1% && echo own
             )
         )
     )
+)
     
 goto :eof 
