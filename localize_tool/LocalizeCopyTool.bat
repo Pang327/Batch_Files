@@ -45,60 +45,60 @@ if errorlevel 2 (goto tool)
 
 
 for /d %%i in (%tool_path%\*) do (
-	echo %%~ni | find "-" > nul
-	if not errorlevel 1 (
-		::GEN FA
-		echo %%~ni | find "FA" > nul
-		if not errorlevel 1 (
-			::GEN PRT
-			set machineGF_T=%%~ni) else (
-			set machineG_T=%%~ni
-		)
-	) else (
-		echo %%~ni | find "FA" > nul
-		if not errorlevel 1 (
-			::OWN FA
-			set machineOF_T=%%~ni) else (
-			::NOT PKI
-			echo %%~ni | find "PKI" > nul
-			if not errorlevel 1 (
-				::OWN PRT PKI
-				set machineP_T=%%~ni) else (
+    echo %%~ni | find "-" > nul
+    if not errorlevel 1 (
+        ::GEN FA
+        echo %%~ni | find "FA" > nul
+        if not errorlevel 1 (
+            ::GEN PRT
+            set machineGF_T=%%~ni) else (
+            set machineG_T=%%~ni
+        )
+    ) else (
+        echo %%~ni | find "FA" > nul
+        if not errorlevel 1 (
+            ::OWN FA
+            set machineOF_T=%%~ni) else (
+            ::NOT PKI
+            echo %%~ni | find "PKI" > nul
+            if not errorlevel 1 (
+                ::OWN PRT PKI
+                set machineP_T=%%~ni) else (
                 ::EXCLUDE SCCopy folder
-				echo %%~ni | find "SCCopy" > nul
-				if errorlevel 1 (
-					::OWN PRT 
-					set machineO_T=%%~ni
-				)
-			)
-		)
-	)	
+                echo %%~ni | find "SCCopy" > nul
+                if errorlevel 1 (
+                    ::OWN PRT 
+                    set machineO_T=%%~ni
+                )
+            )
+        )
+    )   
 )
 
 
 for /d %%i in (%src_path%\Model\*) do (
-	echo %%~ni | find "-" > nul
-	if not errorlevel 1 (
-		
-		echo %%~ni | find "FA" > nul
-		if not errorlevel 1 (
-			
-			set machineGF_S=%%~ni) else (
-			set machineG_S=%%~ni
-		)
-	) else (
-		echo %%~ni | find "FA" > nul
-		if not errorlevel 1 (
-			
-			set machineOF_S=%%~ni) else (
-			
-			echo %%~ni | find "PKI" > nul
-			if not errorlevel 1 (
-				set machineP_S=%%~ni) else (
-				set machineO_S=%%~ni
-			)
-		)
-	)
+    echo %%~ni | find "-" > nul
+    if not errorlevel 1 (
+        
+        echo %%~ni | find "FA" > nul
+        if not errorlevel 1 (
+            
+            set machineGF_S=%%~ni) else (
+            set machineG_S=%%~ni
+        )
+    ) else (
+        echo %%~ni | find "FA" > nul
+        if not errorlevel 1 (
+            
+            set machineOF_S=%%~ni) else (
+            
+            echo %%~ni | find "PKI" > nul
+            if not errorlevel 1 (
+                set machineP_S=%%~ni) else (
+                set machineO_S=%%~ni
+            )
+        )
+    )
 )
 
 
