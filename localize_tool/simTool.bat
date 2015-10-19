@@ -1,14 +1,15 @@
-@echo off
-setlocal enabledelayedexpansion 
+﻿@echo on
+setlocal enabledelayedexpansion
 
 title LocalizeCopyTool
 
 set tool_path=D:\ECT_Project_TestTool
 
-set src_path=F:\WinDrv_Src\IT5_Color_v3.0\KMSrc_2.06.31\Driver
-
+::set src_path=F:\WinDrv_Src\IT5_Color_v3.0\KMSrc_2.06.31\Driver
+set src_path=E:\TEST
 
 for /d %%i in (%tool_path%\*) do (
+    ::echo %%~ni
     echo %%~ni | find "-" > nul
     if not errorlevel 1 (
         ::GEN FA
@@ -40,7 +41,9 @@ for /d %%i in (%tool_path%\*) do (
 )
 
 
-for /d %%i in (%src_path%\Model\*) do (
+::for /d %%i in (%src_path%\Model\*) do (
+for /d %%i in (%src_path%\*) do (
+    ::echo %%~ni
     echo %%~ni | find "-" > nul
     if not errorlevel 1 (
         
@@ -93,7 +96,7 @@ set stl=%1
 
 ::avoid input string is null, exception handling
 if "%stl%"=="" goto :eof
-
+if "%input%"=="" goto :eof
 if "%stl:~0,1%"=="%input:~0,1%" (
     echo %stl%
     echo %stl% | find "-" > nul
