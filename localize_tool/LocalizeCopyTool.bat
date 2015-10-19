@@ -1,4 +1,4 @@
-@echo off
+@echo on
 setlocal enabledelayedexpansion 
 
 title LocalizeCopyTool
@@ -11,7 +11,8 @@ echo 1.Input created Localize folder path in tool.(copy from)
 echo.
 echo sample:E:\Zeus-S_ECT_Project
 echo *************************************************************
-set tool_path=D:\ECT_Project
+set tool_path=D:\ECT_Project_TestTool
+::set tool_path=D:\ECT_Project
 ::set  /p tool_path=Drag folder here:
 
 
@@ -25,7 +26,8 @@ echo 2.Input target Localize folder path in source.(copy to)
 echo.
 echo sample:F:\WinDrv_Src\IT5_Color_v3.0\KMSrc_2.06.34\Driver
 echo *************************************************************
-set src_path=F:\WinDrv_Src\IT5_Color_v3.0\KMSrc_2.06.31\Driver
+set src_path=E:\TEST
+::set src_path=F:\WinDrv_Src\IT5_Color_v3.0\KMSrc_2.06.31\Driver
 ::set  /p src_path=Drag folder here:
 
 if "%src_path%"=="" (echo Please Re-enter Path After Press Any Button. & pause>nul && goto src)
@@ -76,7 +78,8 @@ for /d %%i in (%tool_path%\*) do (
 )
 
 
-for /d %%i in (%src_path%\Model\*) do (
+::for /d %%i in (%src_path%\Model\*) do (
+for /d %%i in (%src_path%\*) do (
     echo %%~ni | find "-" > nul
     if not errorlevel 1 (
         
@@ -102,16 +105,61 @@ for /d %%i in (%src_path%\Model\*) do (
 )
 
 
-set /a n=0
-echo following available types, choice number:
-if "%machineGF_T%"=="%machineGF_S%" (set /a n+=1 && echo !n!.%machineGF_S%)
-if "%machineG_T%"=="%machineG_S%" (set /a n+=1 && echo !n!.%machineG_S%)
-if "%machineOF_T%"=="%machineOF_S%" (set /a n+=1 && echo !n!.%machineOF_S%)
-if "%machineO_T%"=="%machineO_S%" (set /a n+=1 && echo !n!.%machineO_S%)
-if "%machineP_T%"=="%machineP_S%" (set /a n+=1 && echo !n!.%machineP_S%)
 
-set /p PDL_NB=
-pause
+:choice
+set /a n=0
+set PDL_NB1=
+set PDL_NB2=
+set PDL_NB3=
+set PDL_NB4=
+set PDL_NB5=
+
+echo following available types, choice number:
+if "%machineGF_T%"=="%machineGF_S%" (set /a n+=1 && set PDL_NB1=!n!.%machineGF_S%)
+if "%machineG_T%"=="%machineG_S%" (set /a n+=1 && set PDL_NB2=!n!.%machineG_S%)
+if "%machineOF_T%"=="%machineOF_S%" (set /a n+=1 && set PDL_NB3=!n!.%machineOF_S%)
+if "%machineO_T%"=="%machineO_S%" (set /a n+=1 && set PDL_NB4=!n!.%machineO_S%)
+if "%machineP_T%"=="%machineP_S%" (set /a n+=1 && set PDL_NB5=!n!.%machineP_S%)
+
+set PDL_NB=%PDL_NB1% %PDL_NB2% %PDL_NB3% %PDL_NB4% %PDL_NB5%
+echo %PDL_NB%
+set /p input=
+
+
+for %%i in (%PDL_NB%) do call :pickup %%i 
+goto :eof
+
+:pickup 
+set stl=%1
+
+::avoid input string is null, exception handling
+if "%stl%"=="" goto :eof
+if "%input%"=="" goto :eof
+if "%stl:~0,1%"=="%input:~0,1%" (
+    echo %stl%
+    echo %stl% | find "-" > nul
+    if not errorlevel 1 (
+        echo %stl% | find "FA" > nul
+        if not errorlevel 1 (
+            set input=%input:~1% && call :GEN_FA_Loc) else (
+            set input=%input:~1% && call :GEN_Loc
+        )
+    ) else (
+        echo %stl% | find "FA" > nul
+        if not errorlevel 1 (
+            set input=%input:~1% && call :OWN_FA_Loc) else (
+            echo %stl% | find "PKI" > nul
+            if not errorlevel 1 (
+                set input=%input:~1% && call :PKI_Loc) else (
+                set input=%input:~1% && call :OWN_Loc
+            )
+        )
+    )
+)
+    
+goto :eof
+
+
 
 :OWN_Loc
 xcopy %tool_path%\%machineO%\INI\DE\Localize.ini %src_path%\Model\%machineO%\CUSTOM\INI\DE /c /f /i /y
@@ -133,6 +181,7 @@ xcopy %tool_path%\%machineO%\INI\JA\PrvLocalize.ini %src_path%\Driver\XPSPREVIEW
 xcopy %tool_path%\%machineO%\INI\KO\PrvLocalize.ini %src_path%\Driver\XPSPREVIEW\Customization\%machineO%\Localize\KO /c /f /i /y
 xcopy %tool_path%\%machineO%\INI\ZH-CN\PrvLocalize.ini %src_path%\Driver\XPSPREVIEW\Customization\%machineO%\Localize\ZH-CN /c /f /i /y
 xcopy %tool_path%\%machineO%\INI\ZH-TW\PrvLocalize.ini %src_path%\Driver\XPSPREVIEW\Customization\%machineO%\Localize\ZH-TW /c /f /i /y
+goto :eof
 
 :OWN_FA_Loc
 xcopy %tool_path%\%machineOF%\INI\DE\Localize.ini %src_path%\Model\%machineOF%\CUSTOM\INI\DE /c /f /i /y
@@ -154,6 +203,7 @@ xcopy %tool_path%\%machineOF%\INI\JA\LocalizePB.ini %src_path%\Model\%machineOF%
 xcopy %tool_path%\%machineOF%\INI\KO\LocalizePB.ini %src_path%\Model\%machineOF%\CUSTOM\INI\KO /c /f /i /y
 xcopy %tool_path%\%machineOF%\INI\ZH-CN\LocalizePB.ini %src_path%\Model\%machineOF%\CUSTOM\INI\ZH-CN /c /f /i /y
 xcopy %tool_path%\%machineOF%\INI\ZH-TW\LocalizePB.ini %src_path%\Model\%machineOF%\CUSTOM\INI\ZH-TW /c /f /i /y
+goto :eof
 
 :GEN_Loc
 xcopy %tool_path%\%machineG%\INI\DE\Localize.ini %src_path%\Model\%machineG%\CUSTOM\INI\DE /c /f /i /y
@@ -175,6 +225,7 @@ xcopy %tool_path%\%machineG%\INI\JA\PrvLocalize.ini %src_path%\Driver\XPSPREVIEW
 xcopy %tool_path%\%machineG%\INI\KO\PrvLocalize.ini %src_path%\Driver\XPSPREVIEW\Customization\%machineG%\Localize\KO /c /f /i /y
 xcopy %tool_path%\%machineG%\INI\ZH-CN\PrvLocalize.ini %src_path%\Driver\XPSPREVIEW\Customization\%machineG%\Localize\ZH-CN /c /f /i /y
 xcopy %tool_path%\%machineG%\INI\ZH-TW\PrvLocalize.ini %src_path%\Driver\XPSPREVIEW\Customization\%machineG%\Localize\ZH-TW /c /f /i /y
+goto :eof
 
 :GEN_FA_Loc
 xcopy %tool_path%\%machineGF%\INI\DE\Localize.ini %src_path%\Model\%machineGF%\CUSTOM\INI\DE /c /f /i /y
@@ -196,8 +247,10 @@ xcopy %tool_path%\%machineGF%\INI\JA\LocalizePB.ini %src_path%\Model\%machineGF%
 xcopy %tool_path%\%machineGF%\INI\KO\LocalizePB.ini %src_path%\Model\%machineGF%\CUSTOM\INI\KO /c /f /i /y
 xcopy %tool_path%\%machineGF%\INI\ZH-CN\LocalizePB.ini %src_path%\Model\%machineGF%\CUSTOM\INI\ZH-CN /c /f /i /y
 xcopy %tool_path%\%machineGF%\INI\ZH-TW\LocalizePB.ini %src_path%\Model\%machineGF%\CUSTOM\INI\ZH-TW /c /f /i /y
+goto :eof
 
 :PKI_Loc
 xcopy %tool_path%\%machineP%\INI\EN\Localize.ini %src_path%\Model\%machineP%\CUSTOM\INI\EN /c /f /i /y
+goto :eof
 
 pause
