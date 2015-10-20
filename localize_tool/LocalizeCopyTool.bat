@@ -1,4 +1,4 @@
-@echo on
+@echo off
 setlocal enabledelayedexpansion 
 
 title LocalizeCopyTool
@@ -26,8 +26,11 @@ echo 2.Input target Localize folder path in source.(copy to)
 echo.
 echo sample:F:\WinDrv_Src\IT5_Color_v3.0\KMSrc_2.06.34\Driver
 echo *************************************************************
-set src_path=E:\TEST
-::set src_path=F:\WinDrv_Src\IT5_Color_v3.0\KMSrc_2.06.31\Driver
+::home
+::set src_path=E:\TEST
+::company_test
+set src_path=F:\WinDrv_Src\IT5_Color_v3.0\KMSrc_2.06.31\Driver
+::normal
 ::set  /p src_path=Drag folder here:
 
 if "%src_path%"=="" (echo Please Re-enter Path After Press Any Button. & pause>nul && goto src)
@@ -77,9 +80,9 @@ for /d %%i in (%tool_path%\*) do (
     )   
 )
 
-
-::for /d %%i in (%src_path%\Model\*) do (
-for /d %%i in (%src_path%\*) do (
+::home
+::for /d %%i in (%src_path%\*) do (
+for /d %%i in (%src_path%\Model\*) do (
     echo %%~ni | find "-" > nul
     if not errorlevel 1 (
         
@@ -114,16 +117,17 @@ set PDL_NB3=
 set PDL_NB4=
 set PDL_NB5=
 
-echo following available types, choice number:
-if "%machineGF_T%"=="%machineGF_S%" (set /a n+=1 && set PDL_NB1=!n!.%machineGF_S%)
+
+if "%machineGF_S_T%"=="%machineGF_S%" (set /a n+=1 && set PDL_NB1=!n!.%machineGF_S%)
 if "%machineG_T%"=="%machineG_S%" (set /a n+=1 && set PDL_NB2=!n!.%machineG_S%)
 if "%machineOF_T%"=="%machineOF_S%" (set /a n+=1 && set PDL_NB3=!n!.%machineOF_S%)
 if "%machineO_T%"=="%machineO_S%" (set /a n+=1 && set PDL_NB4=!n!.%machineO_S%)
 if "%machineP_T%"=="%machineP_S%" (set /a n+=1 && set PDL_NB5=!n!.%machineP_S%)
 
 set PDL_NB=%PDL_NB1% %PDL_NB2% %PDL_NB3% %PDL_NB4% %PDL_NB5%
+if "%PDL_NB:~0,1%"==""(set PDL_NB=%PDL_NB:~1%)
 echo %PDL_NB%
-set /p input=
+set /p input=Above available types, choice number:
 
 
 for %%i in (%PDL_NB%) do call :pickup %%i 
@@ -162,95 +166,95 @@ goto :eof
 
 
 :OWN_Loc
-xcopy %tool_path%\%machineO%\INI\DE\Localize.ini %src_path%\Model\%machineO%\CUSTOM\INI\DE /c /f /i /y
-xcopy %tool_path%\%machineO%\INI\EN\Localize.ini %src_path%\Model\%machineO%\CUSTOM\INI\EN /c /f /i /y
-xcopy %tool_path%\%machineO%\INI\ES\Localize.ini %src_path%\Model\%machineO%\CUSTOM\INI\ES /c /f /i /y
-xcopy %tool_path%\%machineO%\INI\FR\Localize.ini %src_path%\Model\%machineO%\CUSTOM\INI\FR /c /f /i /y
-xcopy %tool_path%\%machineO%\INI\IT\Localize.ini %src_path%\Model\%machineO%\CUSTOM\INI\IT /c /f /i /y
-xcopy %tool_path%\%machineO%\INI\JA\Localize.ini %src_path%\Model\%machineO%\CUSTOM\INI\JA /c /f /i /y
-xcopy %tool_path%\%machineO%\INI\KO\Localize.ini %src_path%\Model\%machineO%\CUSTOM\INI\KO /c /f /i /y
-xcopy %tool_path%\%machineO%\INI\ZH-CN\Localize.ini %src_path%\Model\%machineO%\CUSTOM\INI\ZH-CN /c /f /i /y
-xcopy %tool_path%\%machineO%\INI\ZH-TW\Localize.ini %src_path%\Model\%machineO%\CUSTOM\INI\ZH-TW /c /f /i /y
+xcopy %tool_path%\%machineO_T%\INI\DE\Localize.ini %src_path%\Model\%machineO_S%\CUSTOM\INI\DE /c /f /i /y
+xcopy %tool_path%\%machineO_T%\INI\EN\Localize.ini %src_path%\Model\%machineO_S%\CUSTOM\INI\EN /c /f /i /y
+xcopy %tool_path%\%machineO_T%\INI\ES\Localize.ini %src_path%\Model\%machineO_S%\CUSTOM\INI\ES /c /f /i /y
+xcopy %tool_path%\%machineO_T%\INI\FR\Localize.ini %src_path%\Model\%machineO_S%\CUSTOM\INI\FR /c /f /i /y
+xcopy %tool_path%\%machineO_T%\INI\IT\Localize.ini %src_path%\Model\%machineO_S%\CUSTOM\INI\IT /c /f /i /y
+xcopy %tool_path%\%machineO_T%\INI\JA\Localize.ini %src_path%\Model\%machineO_S%\CUSTOM\INI\JA /c /f /i /y
+xcopy %tool_path%\%machineO_T%\INI\KO\Localize.ini %src_path%\Model\%machineO_S%\CUSTOM\INI\KO /c /f /i /y
+xcopy %tool_path%\%machineO_T%\INI\ZH-CN\Localize.ini %src_path%\Model\%machineO_S%\CUSTOM\INI\ZH-CN /c /f /i /y
+xcopy %tool_path%\%machineO_T%\INI\ZH-TW\Localize.ini %src_path%\Model\%machineO_S%\CUSTOM\INI\ZH-TW /c /f /i /y
 
-xcopy %tool_path%\%machineO%\INI\DE\PrvLocalize.ini %src_path%\Driver\XPSPREVIEW\Customization\%machineO%\Localize\DE /c /f /i /y
-xcopy %tool_path%\%machineO%\INI\EN\PrvLocalize.ini %src_path%\Driver\XPSPREVIEW\Customization\%machineO%\Localize\EN /c /f /i /y
-xcopy %tool_path%\%machineO%\INI\ES\PrvLocalize.ini %src_path%\Driver\XPSPREVIEW\Customization\%machineO%\Localize\ES /c /f /i /y
-xcopy %tool_path%\%machineO%\INI\FR\PrvLocalize.ini %src_path%\Driver\XPSPREVIEW\Customization\%machineO%\Localize\FR /c /f /i /y
-xcopy %tool_path%\%machineO%\INI\IT\PrvLocalize.ini %src_path%\Driver\XPSPREVIEW\Customization\%machineO%\Localize\IT /c /f /i /y
-xcopy %tool_path%\%machineO%\INI\JA\PrvLocalize.ini %src_path%\Driver\XPSPREVIEW\Customization\%machineO%\Localize\JA /c /f /i /y
-xcopy %tool_path%\%machineO%\INI\KO\PrvLocalize.ini %src_path%\Driver\XPSPREVIEW\Customization\%machineO%\Localize\KO /c /f /i /y
-xcopy %tool_path%\%machineO%\INI\ZH-CN\PrvLocalize.ini %src_path%\Driver\XPSPREVIEW\Customization\%machineO%\Localize\ZH-CN /c /f /i /y
-xcopy %tool_path%\%machineO%\INI\ZH-TW\PrvLocalize.ini %src_path%\Driver\XPSPREVIEW\Customization\%machineO%\Localize\ZH-TW /c /f /i /y
+xcopy %tool_path%\%machineO_T%\INI\DE\PrvLocalize.ini %src_path%\Driver\XPSPREVIEW\Customization\%machineO_S%\Localize\DE /c /f /i /y
+xcopy %tool_path%\%machineO_T%\INI\EN\PrvLocalize.ini %src_path%\Driver\XPSPREVIEW\Customization\%machineO_S%\Localize\EN /c /f /i /y
+xcopy %tool_path%\%machineO_T%\INI\ES\PrvLocalize.ini %src_path%\Driver\XPSPREVIEW\Customization\%machineO_S%\Localize\ES /c /f /i /y
+xcopy %tool_path%\%machineO_T%\INI\FR\PrvLocalize.ini %src_path%\Driver\XPSPREVIEW\Customization\%machineO_S%\Localize\FR /c /f /i /y
+xcopy %tool_path%\%machineO_T%\INI\IT\PrvLocalize.ini %src_path%\Driver\XPSPREVIEW\Customization\%machineO_S%\Localize\IT /c /f /i /y
+xcopy %tool_path%\%machineO_T%\INI\JA\PrvLocalize.ini %src_path%\Driver\XPSPREVIEW\Customization\%machineO_S%\Localize\JA /c /f /i /y
+xcopy %tool_path%\%machineO_T%\INI\KO\PrvLocalize.ini %src_path%\Driver\XPSPREVIEW\Customization\%machineO_S%\Localize\KO /c /f /i /y
+xcopy %tool_path%\%machineO_T%\INI\ZH-CN\PrvLocalize.ini %src_path%\Driver\XPSPREVIEW\Customization\%machineO_S%\Localize\ZH-CN /c /f /i /y
+xcopy %tool_path%\%machineO_T%\INI\ZH-TW\PrvLocalize.ini %src_path%\Driver\XPSPREVIEW\Customization\%machineO_S%\Localize\ZH-TW /c /f /i /y
 goto :eof
 
 :OWN_FA_Loc
-xcopy %tool_path%\%machineOF%\INI\DE\Localize.ini %src_path%\Model\%machineOF%\CUSTOM\INI\DE /c /f /i /y
-xcopy %tool_path%\%machineOF%\INI\EN\Localize.ini %src_path%\Model\%machineOF%\CUSTOM\INI\EN /c /f /i /y
-xcopy %tool_path%\%machineOF%\INI\ES\Localize.ini %src_path%\Model\%machineOF%\CUSTOM\INI\ES /c /f /i /y
-xcopy %tool_path%\%machineOF%\INI\FR\Localize.ini %src_path%\Model\%machineOF%\CUSTOM\INI\FR /c /f /i /y
-xcopy %tool_path%\%machineOF%\INI\IT\Localize.ini %src_path%\Model\%machineOF%\CUSTOM\INI\IT /c /f /i /y
-xcopy %tool_path%\%machineOF%\INI\JA\Localize.ini %src_path%\Model\%machineOF%\CUSTOM\INI\JA /c /f /i /y
-xcopy %tool_path%\%machineOF%\INI\KO\Localize.ini %src_path%\Model\%machineOF%\CUSTOM\INI\KO /c /f /i /y
-xcopy %tool_path%\%machineOF%\INI\ZH-CN\Localize.ini %src_path%\Model\%machineOF%\CUSTOM\INI\ZH-CN /c /f /i /y
-xcopy %tool_path%\%machineOF%\INI\ZH-TW\Localize.ini %src_path%\Model\%machineOF%\CUSTOM\INI\ZH-TW /c /f /i /y
+xcopy %tool_path%\%machineOF_T%\INI\DE\Localize.ini %src_path%\Model\%machineOF_S%\CUSTOM\INI\DE /c /f /i /y
+xcopy %tool_path%\%machineOF_T%\INI\EN\Localize.ini %src_path%\Model\%machineOF_S%\CUSTOM\INI\EN /c /f /i /y
+xcopy %tool_path%\%machineOF_T%\INI\ES\Localize.ini %src_path%\Model\%machineOF_S%\CUSTOM\INI\ES /c /f /i /y
+xcopy %tool_path%\%machineOF_T%\INI\FR\Localize.ini %src_path%\Model\%machineOF_S%\CUSTOM\INI\FR /c /f /i /y
+xcopy %tool_path%\%machineOF_T%\INI\IT\Localize.ini %src_path%\Model\%machineOF_S%\CUSTOM\INI\IT /c /f /i /y
+xcopy %tool_path%\%machineOF_T%\INI\JA\Localize.ini %src_path%\Model\%machineOF_S%\CUSTOM\INI\JA /c /f /i /y
+xcopy %tool_path%\%machineOF_T%\INI\KO\Localize.ini %src_path%\Model\%machineOF_S%\CUSTOM\INI\KO /c /f /i /y
+xcopy %tool_path%\%machineOF_T%\INI\ZH-CN\Localize.ini %src_path%\Model\%machineOF_S%\CUSTOM\INI\ZH-CN /c /f /i /y
+xcopy %tool_path%\%machineOF_T%\INI\ZH-TW\Localize.ini %src_path%\Model\%machineOF_S%\CUSTOM\INI\ZH-TW /c /f /i /y
 
-xcopy %tool_path%\%machineOF%\INI\DE\LocalizePB.ini %src_path%\Model\%machineOF%\CUSTOM\INI\DE /c /f /i /y
-xcopy %tool_path%\%machineOF%\INI\EN\LocalizePB.ini %src_path%\Model\%machineOF%\CUSTOM\INI\EN /c /f /i /y
-xcopy %tool_path%\%machineOF%\INI\ES\LocalizePB.ini %src_path%\Model\%machineOF%\CUSTOM\INI\ES /c /f /i /y
-xcopy %tool_path%\%machineOF%\INI\FR\LocalizePB.ini %src_path%\Model\%machineOF%\CUSTOM\INI\FR /c /f /i /y
-xcopy %tool_path%\%machineOF%\INI\IT\LocalizePB.ini %src_path%\Model\%machineOF%\CUSTOM\INI\IT /c /f /i /y
-xcopy %tool_path%\%machineOF%\INI\JA\LocalizePB.ini %src_path%\Model\%machineOF%\CUSTOM\INI\JA /c /f /i /y
-xcopy %tool_path%\%machineOF%\INI\KO\LocalizePB.ini %src_path%\Model\%machineOF%\CUSTOM\INI\KO /c /f /i /y
-xcopy %tool_path%\%machineOF%\INI\ZH-CN\LocalizePB.ini %src_path%\Model\%machineOF%\CUSTOM\INI\ZH-CN /c /f /i /y
-xcopy %tool_path%\%machineOF%\INI\ZH-TW\LocalizePB.ini %src_path%\Model\%machineOF%\CUSTOM\INI\ZH-TW /c /f /i /y
+xcopy %tool_path%\%machineOF_T%\INI\DE\LocalizePB.ini %src_path%\Model\%machineOF_S%\CUSTOM\INI\DE /c /f /i /y
+xcopy %tool_path%\%machineOF_T%\INI\EN\LocalizePB.ini %src_path%\Model\%machineOF_S%\CUSTOM\INI\EN /c /f /i /y
+xcopy %tool_path%\%machineOF_T%\INI\ES\LocalizePB.ini %src_path%\Model\%machineOF_S%\CUSTOM\INI\ES /c /f /i /y
+xcopy %tool_path%\%machineOF_T%\INI\FR\LocalizePB.ini %src_path%\Model\%machineOF_S%\CUSTOM\INI\FR /c /f /i /y
+xcopy %tool_path%\%machineOF_T%\INI\IT\LocalizePB.ini %src_path%\Model\%machineOF_S%\CUSTOM\INI\IT /c /f /i /y
+xcopy %tool_path%\%machineOF_T%\INI\JA\LocalizePB.ini %src_path%\Model\%machineOF_S%\CUSTOM\INI\JA /c /f /i /y
+xcopy %tool_path%\%machineOF_T%\INI\KO\LocalizePB.ini %src_path%\Model\%machineOF_S%\CUSTOM\INI\KO /c /f /i /y
+xcopy %tool_path%\%machineOF_T%\INI\ZH-CN\LocalizePB.ini %src_path%\Model\%machineOF_S%\CUSTOM\INI\ZH-CN /c /f /i /y
+xcopy %tool_path%\%machineOF_T%\INI\ZH-TW\LocalizePB.ini %src_path%\Model\%machineOF_S%\CUSTOM\INI\ZH-TW /c /f /i /y
 goto :eof
 
 :GEN_Loc
-xcopy %tool_path%\%machineG%\INI\DE\Localize.ini %src_path%\Model\%machineG%\CUSTOM\INI\DE /c /f /i /y
-xcopy %tool_path%\%machineG%\INI\EN\Localize.ini %src_path%\Model\%machineG%\CUSTOM\INI\EN /c /f /i /y
-xcopy %tool_path%\%machineG%\INI\ES\Localize.ini %src_path%\Model\%machineG%\CUSTOM\INI\ES /c /f /i /y
-xcopy %tool_path%\%machineG%\INI\FR\Localize.ini %src_path%\Model\%machineG%\CUSTOM\INI\FR /c /f /i /y
-xcopy %tool_path%\%machineG%\INI\IT\Localize.ini %src_path%\Model\%machineG%\CUSTOM\INI\IT /c /f /i /y
-xcopy %tool_path%\%machineG%\INI\JA\Localize.ini %src_path%\Model\%machineG%\CUSTOM\INI\JA /c /f /i /y
-xcopy %tool_path%\%machineG%\INI\KO\Localize.ini %src_path%\Model\%machineG%\CUSTOM\INI\KO /c /f /i /y
-xcopy %tool_path%\%machineG%\INI\ZH-CN\Localize.ini %src_path%\Model\%machineG%\CUSTOM\INI\ZH-CN /c /f /i /y
-xcopy %tool_path%\%machineG%\INI\ZH-TW\Localize.ini %src_path%\Model\%machineG%\CUSTOM\INI\ZH-TW /c /f /i /y
+xcopy %tool_path%\%machineG_T%\INI\DE\Localize.ini %src_path%\Model\%machineG_S%\CUSTOM\INI\DE /c /f /i /y
+xcopy %tool_path%\%machineG_T%\INI\EN\Localize.ini %src_path%\Model\%machineG_S%\CUSTOM\INI\EN /c /f /i /y
+xcopy %tool_path%\%machineG_T%\INI\ES\Localize.ini %src_path%\Model\%machineG_S%\CUSTOM\INI\ES /c /f /i /y
+xcopy %tool_path%\%machineG_T%\INI\FR\Localize.ini %src_path%\Model\%machineG_S%\CUSTOM\INI\FR /c /f /i /y
+xcopy %tool_path%\%machineG_T%\INI\IT\Localize.ini %src_path%\Model\%machineG_S%\CUSTOM\INI\IT /c /f /i /y
+xcopy %tool_path%\%machineG_T%\INI\JA\Localize.ini %src_path%\Model\%machineG_S%\CUSTOM\INI\JA /c /f /i /y
+xcopy %tool_path%\%machineG_T%\INI\KO\Localize.ini %src_path%\Model\%machineG_S%\CUSTOM\INI\KO /c /f /i /y
+xcopy %tool_path%\%machineG_T%\INI\ZH-CN\Localize.ini %src_path%\Model\%machineG_S%\CUSTOM\INI\ZH-CN /c /f /i /y
+xcopy %tool_path%\%machineG_T%\INI\ZH-TW\Localize.ini %src_path%\Model\%machineG_S%\CUSTOM\INI\ZH-TW /c /f /i /y
 
-xcopy %tool_path%\%machineG%\INI\DE\PrvLocalize.ini %src_path%\Driver\XPSPREVIEW\Customization\%machineG%\Localize\DE /c /f /i /y
-xcopy %tool_path%\%machineG%\INI\EN\PrvLocalize.ini %src_path%\Driver\XPSPREVIEW\Customization\%machineG%\Localize\EN /c /f /i /y
-xcopy %tool_path%\%machineG%\INI\ES\PrvLocalize.ini %src_path%\Driver\XPSPREVIEW\Customization\%machineG%\Localize\ES /c /f /i /y
-xcopy %tool_path%\%machineG%\INI\FR\PrvLocalize.ini %src_path%\Driver\XPSPREVIEW\Customization\%machineG%\Localize\FR /c /f /i /y
-xcopy %tool_path%\%machineG%\INI\IT\PrvLocalize.ini %src_path%\Driver\XPSPREVIEW\Customization\%machineG%\Localize\IT /c /f /i /y
-xcopy %tool_path%\%machineG%\INI\JA\PrvLocalize.ini %src_path%\Driver\XPSPREVIEW\Customization\%machineG%\Localize\JA /c /f /i /y
-xcopy %tool_path%\%machineG%\INI\KO\PrvLocalize.ini %src_path%\Driver\XPSPREVIEW\Customization\%machineG%\Localize\KO /c /f /i /y
-xcopy %tool_path%\%machineG%\INI\ZH-CN\PrvLocalize.ini %src_path%\Driver\XPSPREVIEW\Customization\%machineG%\Localize\ZH-CN /c /f /i /y
-xcopy %tool_path%\%machineG%\INI\ZH-TW\PrvLocalize.ini %src_path%\Driver\XPSPREVIEW\Customization\%machineG%\Localize\ZH-TW /c /f /i /y
+xcopy %tool_path%\%machineG_T%\INI\DE\PrvLocalize.ini %src_path%\Driver\XPSPREVIEW\Customization\%machineG_S%\Localize\DE /c /f /i /y
+xcopy %tool_path%\%machineG_T%\INI\EN\PrvLocalize.ini %src_path%\Driver\XPSPREVIEW\Customization\%machineG_S%\Localize\EN /c /f /i /y
+xcopy %tool_path%\%machineG_T%\INI\ES\PrvLocalize.ini %src_path%\Driver\XPSPREVIEW\Customization\%machineG_S%\Localize\ES /c /f /i /y
+xcopy %tool_path%\%machineG_T%\INI\FR\PrvLocalize.ini %src_path%\Driver\XPSPREVIEW\Customization\%machineG_S%\Localize\FR /c /f /i /y
+xcopy %tool_path%\%machineG_T%\INI\IT\PrvLocalize.ini %src_path%\Driver\XPSPREVIEW\Customization\%machineG_S%\Localize\IT /c /f /i /y
+xcopy %tool_path%\%machineG_T%\INI\JA\PrvLocalize.ini %src_path%\Driver\XPSPREVIEW\Customization\%machineG_S%\Localize\JA /c /f /i /y
+xcopy %tool_path%\%machineG_T%\INI\KO\PrvLocalize.ini %src_path%\Driver\XPSPREVIEW\Customization\%machineG_S%\Localize\KO /c /f /i /y
+xcopy %tool_path%\%machineG_T%\INI\ZH-CN\PrvLocalize.ini %src_path%\Driver\XPSPREVIEW\Customization\%machineG_S%\Localize\ZH-CN /c /f /i /y
+xcopy %tool_path%\%machineG_T%\INI\ZH-TW\PrvLocalize.ini %src_path%\Driver\XPSPREVIEW\Customization\%machineG_S%\Localize\ZH-TW /c /f /i /y
 goto :eof
 
 :GEN_FA_Loc
-xcopy %tool_path%\%machineGF%\INI\DE\Localize.ini %src_path%\Model\%machineGF%\CUSTOM\INI\DE /c /f /i /y
-xcopy %tool_path%\%machineGF%\INI\EN\Localize.ini %src_path%\Model\%machineGF%\CUSTOM\INI\EN /c /f /i /y
-xcopy %tool_path%\%machineGF%\INI\ES\Localize.ini %src_path%\Model\%machineGF%\CUSTOM\INI\ES /c /f /i /y
-xcopy %tool_path%\%machineGF%\INI\FR\Localize.ini %src_path%\Model\%machineGF%\CUSTOM\INI\FR /c /f /i /y
-xcopy %tool_path%\%machineGF%\INI\IT\Localize.ini %src_path%\Model\%machineGF%\CUSTOM\INI\IT /c /f /i /y
-xcopy %tool_path%\%machineGF%\INI\JA\Localize.ini %src_path%\Model\%machineGF%\CUSTOM\INI\JA /c /f /i /y
-xcopy %tool_path%\%machineGF%\INI\KO\Localize.ini %src_path%\Model\%machineGF%\CUSTOM\INI\KO /c /f /i /y
-xcopy %tool_path%\%machineGF%\INI\ZH-CN\Localize.ini %src_path%\Model\%machineGF%\CUSTOM\INI\ZH-CN /c /f /i /y
-xcopy %tool_path%\%machineGF%\INI\ZH-TW\Localize.ini %src_path%\Model\%machineGF%\CUSTOM\INI\ZH-TW /c /f /i /y
+xcopy %tool_path%\%machineGF_T%\INI\DE\Localize.ini %src_path%\Model\%machineGF_S%\CUSTOM\INI\DE /c /f /i /y
+xcopy %tool_path%\%machineGF_T%\INI\EN\Localize.ini %src_path%\Model\%machineGF_S%\CUSTOM\INI\EN /c /f /i /y
+xcopy %tool_path%\%machineGF_T%\INI\ES\Localize.ini %src_path%\Model\%machineGF_S%\CUSTOM\INI\ES /c /f /i /y
+xcopy %tool_path%\%machineGF_T%\INI\FR\Localize.ini %src_path%\Model\%machineGF_S%\CUSTOM\INI\FR /c /f /i /y
+xcopy %tool_path%\%machineGF_T%\INI\IT\Localize.ini %src_path%\Model\%machineGF_S%\CUSTOM\INI\IT /c /f /i /y
+xcopy %tool_path%\%machineGF_T%\INI\JA\Localize.ini %src_path%\Model\%machineGF_S%\CUSTOM\INI\JA /c /f /i /y
+xcopy %tool_path%\%machineGF_T%\INI\KO\Localize.ini %src_path%\Model\%machineGF_S%\CUSTOM\INI\KO /c /f /i /y
+xcopy %tool_path%\%machineGF_T%\INI\ZH-CN\Localize.ini %src_path%\Model\%machineGF_S%\CUSTOM\INI\ZH-CN /c /f /i /y
+xcopy %tool_path%\%machineGF_T%\INI\ZH-TW\Localize.ini %src_path%\Model\%machineGF_S%\CUSTOM\INI\ZH-TW /c /f /i /y
 
-xcopy %tool_path%\%machineGF%\INI\DE\LocalizePB.ini %src_path%\Model\%machineGF%\CUSTOM\INI\DE /c /f /i /y
-xcopy %tool_path%\%machineGF%\INI\EN\LocalizePB.ini %src_path%\Model\%machineGF%\CUSTOM\INI\EN /c /f /i /y
-xcopy %tool_path%\%machineGF%\INI\ES\LocalizePB.ini %src_path%\Model\%machineGF%\CUSTOM\INI\ES /c /f /i /y
-xcopy %tool_path%\%machineGF%\INI\FR\LocalizePB.ini %src_path%\Model\%machineGF%\CUSTOM\INI\FR /c /f /i /y
-xcopy %tool_path%\%machineGF%\INI\IT\LocalizePB.ini %src_path%\Model\%machineGF%\CUSTOM\INI\IT /c /f /i /y
-xcopy %tool_path%\%machineGF%\INI\JA\LocalizePB.ini %src_path%\Model\%machineGF%\CUSTOM\INI\JA /c /f /i /y
-xcopy %tool_path%\%machineGF%\INI\KO\LocalizePB.ini %src_path%\Model\%machineGF%\CUSTOM\INI\KO /c /f /i /y
-xcopy %tool_path%\%machineGF%\INI\ZH-CN\LocalizePB.ini %src_path%\Model\%machineGF%\CUSTOM\INI\ZH-CN /c /f /i /y
-xcopy %tool_path%\%machineGF%\INI\ZH-TW\LocalizePB.ini %src_path%\Model\%machineGF%\CUSTOM\INI\ZH-TW /c /f /i /y
+xcopy %tool_path%\%machineGF_T%\INI\DE\LocalizePB.ini %src_path%\Model\%machineGF_S%\CUSTOM\INI\DE /c /f /i /y
+xcopy %tool_path%\%machineGF_T%\INI\EN\LocalizePB.ini %src_path%\Model\%machineGF_S%\CUSTOM\INI\EN /c /f /i /y
+xcopy %tool_path%\%machineGF_T%\INI\ES\LocalizePB.ini %src_path%\Model\%machineGF_S%\CUSTOM\INI\ES /c /f /i /y
+xcopy %tool_path%\%machineGF_T%\INI\FR\LocalizePB.ini %src_path%\Model\%machineGF_S%\CUSTOM\INI\FR /c /f /i /y
+xcopy %tool_path%\%machineGF_T%\INI\IT\LocalizePB.ini %src_path%\Model\%machineGF_S%\CUSTOM\INI\IT /c /f /i /y
+xcopy %tool_path%\%machineGF_T%\INI\JA\LocalizePB.ini %src_path%\Model\%machineGF_S%\CUSTOM\INI\JA /c /f /i /y
+xcopy %tool_path%\%machineGF_T%\INI\KO\LocalizePB.ini %src_path%\Model\%machineGF_S%\CUSTOM\INI\KO /c /f /i /y
+xcopy %tool_path%\%machineGF_T%\INI\ZH-CN\LocalizePB.ini %src_path%\Model\%machineGF_S%\CUSTOM\INI\ZH-CN /c /f /i /y
+xcopy %tool_path%\%machineGF_T%\INI\ZH-TW\LocalizePB.ini %src_path%\Model\%machineGF_S%\CUSTOM\INI\ZH-TW /c /f /i /y
 goto :eof
 
 :PKI_Loc
-xcopy %tool_path%\%machineP%\INI\EN\Localize.ini %src_path%\Model\%machineP%\CUSTOM\INI\EN /c /f /i /y
+xcopy %tool_path%\%machineP_T%\INI\EN\Localize.ini %src_path%\Model\%machineP_S%\CUSTOM\INI\EN /c /f /i /y
 goto :eof
 
 pause
