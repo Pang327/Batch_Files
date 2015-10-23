@@ -28,7 +28,7 @@ set /p src_path=Drag folder here:
 :: judge src_path value is null
 if "%src_path%"=="" (echo Please Re-enter Path After Press Any Button. & pause>nul && goto src)
 
-:cfr
+:cfm
 cls
 echo *************************************************************
 echo 3. Confirm your setting
