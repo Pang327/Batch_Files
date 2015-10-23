@@ -1,6 +1,5 @@
 @echo off
 setlocal enabledelayedexpansion 
-
 title LocalizeCopyTool
 
 :tool
@@ -11,10 +10,9 @@ echo 1.Input created Localize folder path in tool.(copy from)
 echo.
 echo sample:E:\Zeus-S_ECT_Project
 echo *************************************************************
-::set tool_path=D:\ECT_Project_TestTool
-::set tool_path=D:\ECT_Project
-set /p tool_path=Drag folder here:
 
+set /p tool_path=Drag folder here:
+:: judge tool_path value is null
 if "%tool_path%"=="" (echo Please Re-enter Path After Press Any Button. & pause>nul && goto tool)
 
 :src
@@ -25,13 +23,9 @@ echo 2.Input target Localize folder path in source.(copy to)
 echo.
 echo sample:F:\WinDrv_Src\IT5_Color_v3.0\KMSrc_2.06.34\Driver
 echo *************************************************************
-::home
-::set src_path=E:\TEST
-::company_test
-::set src_path=F:\WinDrv_Src\IT5_Color_v3.0\KMSrc_2.06.31\Driver
-::normal
-set /p src_path=Drag folder here:
 
+set /p src_path=Drag folder here:
+:: judge src_path value is null
 if "%src_path%"=="" (echo Please Re-enter Path After Press Any Button. & pause>nul && goto src)
 
 :cfr
@@ -42,12 +36,15 @@ echo.
 echo Copy from: %tool_path%
 echo Copy to:   %src_path%
 echo *************************************************************
-echo Press [Y/y] to execute, press [N/n] to reset:
+
+echo Press [Y/y] to execute.
+echo Press [N/n] to reset.
 choice
-:: after "choice" command, if Y/y errorlevel==1, if N/n errorlevel==2
+:: if Y/y errorlevel==1, if N/n errorlevel==2
+if errorlevel 1 (pause>nul)
 if errorlevel 2 (goto tool)
 
-
+:: define value of folder copied from tool_path
 for /d %%i in (%tool_path%\*) do (
     echo %%~ni | find "-" > nul
     if not errorlevel 1 (
@@ -68,7 +65,7 @@ for /d %%i in (%tool_path%\*) do (
             if not errorlevel 1 (
                 ::OWN PRT PKI
                 set machineP_T=%%~ni) else (
-                ::EXCLUDE SCCopy folder
+                ::Exclude SCCopy Folder
                 echo %%~ni | find "SCCopy" > nul
                 if errorlevel 1 (
                     ::OWN PRT 
