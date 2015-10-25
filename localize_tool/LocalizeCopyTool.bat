@@ -46,6 +46,8 @@ choice
 :: if Y/y errorlevel==1, if N/n errorlevel==2
 if errorlevel 1 (pause>nul)
 if errorlevel 2 (goto tool)
+:: clear screen before next screen
+cls
 
 :: define value of folder copied from tool_path
 for /d %%i in (%tool_path%\*) do (
