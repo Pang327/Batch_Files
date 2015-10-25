@@ -2,6 +2,7 @@
 setlocal enabledelayedexpansion 
 title LocalizeCopyTool
 
+
 :tool
 cls
 set tool_path=
@@ -15,6 +16,7 @@ set /p tool_path=Drag folder here:
 :: judge tool_path value is null
 if "%tool_path%"=="" (echo Please Re-enter Path After Press Any Button. & pause>nul && goto tool)
 
+
 :src
 cls
 set src_path=
@@ -27,6 +29,7 @@ echo *************************************************************
 set /p src_path=Drag folder here:
 :: judge src_path value is null
 if "%src_path%"=="" (echo Please Re-enter Path After Press Any Button. & pause>nul && goto src)
+
 
 :cfm
 cls
@@ -48,27 +51,27 @@ if errorlevel 2 (goto tool)
 for /d %%i in (%tool_path%\*) do (
     echo %%~ni | find "-" > nul
     if not errorlevel 1 (
-        ::GEN FA
+        :: GEN FA
         echo %%~ni | find "FA" > nul
         if not errorlevel 1 (
-            ::GEN PRT
+            :: GEN PRT
             set machineGF_T=%%~ni) else (
             set machineG_T=%%~ni
         )
     ) else (
         echo %%~ni | find "FA" > nul
         if not errorlevel 1 (
-            ::OWN FA
+            :: OWN FA
             set machineOF_T=%%~ni) else (
-            ::NOT PKI
+            :: NOT PKI
             echo %%~ni | find "PKI" > nul
             if not errorlevel 1 (
-                ::OWN PRT PKI
+                :: OWN PRT PKI
                 set machineP_T=%%~ni) else (
-                ::Exclude SCCopy Folder
+                :: Exclude SCCopy Folder
                 echo %%~ni | find "SCCopy" > nul
                 if errorlevel 1 (
-                    ::OWN PRT 
+                    :: OWN PRT 
                     set machineO_T=%%~ni
                 )
             )
@@ -76,24 +79,19 @@ for /d %%i in (%tool_path%\*) do (
     )   
 )
 
-::home
-::for /d %%i in (%src_path%\*) do (
+:: define value of folder copied from src_path
 for /d %%i in (%src_path%\Model\*) do (
     echo %%~ni | find "-" > nul
-    if not errorlevel 1 (
-        
+    if not errorlevel 1 (       
         echo %%~ni | find "FA" > nul
-        if not errorlevel 1 (
-            
+        if not errorlevel 1 (            
             set machineGF_S=%%~ni) else (
             set machineG_S=%%~ni
         )
     ) else (
         echo %%~ni | find "FA" > nul
-        if not errorlevel 1 (
-            
-            set machineOF_S=%%~ni) else (
-            
+        if not errorlevel 1 (            
+            set machineOF_S=%%~ni) else (            
             echo %%~ni | find "PKI" > nul
             if not errorlevel 1 (
                 set machineP_S=%%~ni) else (
@@ -104,43 +102,47 @@ for /d %%i in (%src_path%\Model\*) do (
 )
 
 
-
 :choice
+:: assign a number to model & connect number and model
 set /a n=0
 set PDL_NB1=
 set PDL_NB2=
 set PDL_NB3=
 set PDL_NB4=
 set PDL_NB5=
-
-
 if "%machineGF_T%"=="%machineGF_S%" (set /a n+=1 && set PDL_NB1=!n!.%machineGF_S%)
 if "%machineG_T%"=="%machineG_S%" (set /a n+=1 && set PDL_NB2=!n!.%machineG_S%)
 if "%machineOF_T%"=="%machineOF_S%" (set /a n+=1 && set PDL_NB3=!n!.%machineOF_S%)
 if "%machineO_T%"=="%machineO_S%" (set /a n+=1 && set PDL_NB4=!n!.%machineO_S%)
 if "%machineP_T%"=="%machineP_S%" (set /a n+=1 && set PDL_NB5=!n!.%machineP_S%)
 
+:: number and model write in a string1
 set PDL_NB=%PDL_NB1% %PDL_NB2% %PDL_NB3% %PDL_NB4% %PDL_NB5%
+:: delete null value of string
 if "%PDL_NB:~0,1%"==""(set PDL_NB=%PDL_NB:~1%)
 echo %PDL_NB%
+:: input number of model as string2,several number selectable
 set /p input=Above available types, choice number:
 
-
+:: loop,find string2(input number) in string1(number and model)  
 for %%i in (%PDL_NB%) do call :pickup %%i 
 goto :eof
 
+
 :pickup 
+:: %1:get the first value of string1,the second value become the first value in next loop
 set stl=%1
 
-::avoid input string is null, exception handling
+:: avoid input strings is null,exception handling
 if "%stl%"=="" goto :eof
 if "%input%"=="" goto :eof
+:: modle of number in keeping with the first inputed number in this loop
 if "%stl:~0,1%"=="%input:~0,1%" (
-    echo %stl%
     echo %stl% | find "-" > nul
     if not errorlevel 1 (
-        echo %stl% | find "FA" > nul
+        echo %stl% | find "FA" > nul		
         if not errorlevel 1 (
+		    :: delete the first number in inputed number,skip to corresponding label to copy
             set input=%input:~1% && call :GEN_FA_Loc) else (
             set input=%input:~1% && call :GEN_Loc
         )
@@ -156,9 +158,7 @@ if "%stl:~0,1%"=="%input:~0,1%" (
         )
     )
 )
-    
 goto :eof
-
 
 
 :OWN_Loc
@@ -183,6 +183,7 @@ xcopy %tool_path%\%machineO_T%\INI\ZH-CN\PrvLocalize.ini %src_path%\Driver\XPSPR
 xcopy %tool_path%\%machineO_T%\INI\ZH-TW\PrvLocalize.ini %src_path%\Driver\XPSPREVIEW\Preview\Customization\%machineO_S%\Localize\ZH-TW /c /f /i /y
 goto :eof
 
+
 :OWN_FA_Loc
 xcopy %tool_path%\%machineOF_T%\INI\DE\Localize.ini %src_path%\Model\%machineOF_S%\CUSTOM\INI\DE /c /f /i /y
 xcopy %tool_path%\%machineOF_T%\INI\EN\Localize.ini %src_path%\Model\%machineOF_S%\CUSTOM\INI\EN /c /f /i /y
@@ -204,6 +205,7 @@ xcopy %tool_path%\%machineOF_T%\INI\KO\LocalizePB.ini %src_path%\Model\%machineO
 xcopy %tool_path%\%machineOF_T%\INI\ZH-CN\LocalizePB.ini %src_path%\Model\%machineOF_S%\CUSTOM\INI\ZH-CN /c /f /i /y
 xcopy %tool_path%\%machineOF_T%\INI\ZH-TW\LocalizePB.ini %src_path%\Model\%machineOF_S%\CUSTOM\INI\ZH-TW /c /f /i /y
 goto :eof
+
 
 :GEN_Loc
 xcopy %tool_path%\%machineG_T%\INI\DE\Localize.ini %src_path%\Model\%machineG_S%\CUSTOM\INI\DE /c /f /i /y
@@ -227,6 +229,7 @@ xcopy %tool_path%\%machineG_T%\INI\ZH-CN\PrvLocalize.ini %src_path%\Driver\XPSPR
 xcopy %tool_path%\%machineG_T%\INI\ZH-TW\PrvLocalize.ini %src_path%\Driver\XPSPREVIEW\Preview\Customization\%machineG_S%\Localize\ZH-TW /c /f /i /y
 goto :eof
 
+
 :GEN_FA_Loc
 xcopy %tool_path%\%machineGF_T%\INI\DE\Localize.ini %src_path%\Model\%machineGF_S%\CUSTOM\INI\DE /c /f /i /y
 xcopy %tool_path%\%machineGF_T%\INI\EN\Localize.ini %src_path%\Model\%machineGF_S%\CUSTOM\INI\EN /c /f /i /y
@@ -248,6 +251,7 @@ xcopy %tool_path%\%machineGF_T%\INI\KO\LocalizePB.ini %src_path%\Model\%machineG
 xcopy %tool_path%\%machineGF_T%\INI\ZH-CN\LocalizePB.ini %src_path%\Model\%machineGF_S%\CUSTOM\INI\ZH-CN /c /f /i /y
 xcopy %tool_path%\%machineGF_T%\INI\ZH-TW\LocalizePB.ini %src_path%\Model\%machineGF_S%\CUSTOM\INI\ZH-TW /c /f /i /y
 goto :eof
+
 
 :PKI_Loc
 xcopy %tool_path%\%machineP_T%\INI\EN\Localize.ini %src_path%\Model\%machineP_S%\CUSTOM\INI\EN /c /f /i /y
