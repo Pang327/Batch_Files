@@ -12,7 +12,7 @@ echo.
 echo sample:E:\Zeus-S_ECT_Project
 echo *************************************************************
 
-set /p tool_path=Drag folder here:
+set /p tool_path=Drag folder here: 
 :: judge tool_path value is null
 if "%tool_path%"=="" (echo Please Re-enter Path After Press Any Button. & pause>nul && goto tool)
 
@@ -26,7 +26,7 @@ echo.
 echo sample:F:\WinDrv_Src\IT5_Color_v3.0\KMSrc_2.06.34\Driver
 echo *************************************************************
 
-set /p src_path=Drag folder here:
+set /p src_path=Drag folder here: 
 :: judge src_path value is null
 if "%src_path%"=="" (echo Please Re-enter Path After Press Any Button. & pause>nul && goto src)
 
@@ -122,7 +122,7 @@ set PDL_NB=%PDL_NB1% %PDL_NB2% %PDL_NB3% %PDL_NB4% %PDL_NB5%
 if "%PDL_NB:~0,1%"==""(set PDL_NB=%PDL_NB:~1%)
 echo %PDL_NB%
 :: input number of model as string2,several number selectable
-set /p input=Above available types, choice number:
+set /p input=Above available types, choice number: 
 
 :: loop,find string2(input number) in string1(number and model)  
 for %%i in (%PDL_NB%) do call :pickup %%i 
