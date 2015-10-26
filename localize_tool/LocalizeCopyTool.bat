@@ -40,15 +40,6 @@ echo Copy from: %tool_path%
 echo Copy to:   %src_path%
 echo *************************************************************
 
-echo Press [Y/y] to execute.
-echo Press [N/n] to reset.
-choice
-:: if Y/y errorlevel==1, if N/n errorlevel==2
-if errorlevel 1 (pause>nul)
-if errorlevel 2 (goto tool)
-:: clear screen before next screen
-cls
-
 :: define value of folder copied from tool_path
 for /d %%i in (%tool_path%\*) do (
     echo %%~ni | find "-" > nul
@@ -103,6 +94,24 @@ for /d %%i in (%src_path%\Model\*) do (
     )
 )
 
+:: judge every model is null
+if "%machineGF_T%"=="" (echo WARN:GENFAX NOT FOUND IN TOOL )
+if "%machineG_T%"=="" (echo WARN:GEN NOT FOUND IN TOOL )
+if "%machineOF_T%"=="" (echo WARN:OWNFAX NOT FOUND IN TOOL )
+if "%machineP_T%"=="" (echo WARN:PKI NOT FOUND IN TOOL )
+if "%machineO_T%"=="" (echo WARN:OWN NOT FOUND IN TOOL )
+if "%machineGF_S%"=="" (echo WARN:GENFAX NOT FOUND IN SOURCE )
+if "%machineG_S%"=="" (echo WARN:GEN NOT FOUND IN SOURCE )
+if "%machineOF_S%"=="" (echo WARN:OWNFAX NOT FOUND IN SOURCE )
+if "%machineP_S%"=="" (echo WARN:PKI NOT FOUND IN SOURCE )
+if "%machineO_S%"=="" (echo WARN:OWN NOT FOUND IN SOURCE )
+
+echo Press [Y/y] to execute.
+echo Press [N/n] to reset path.
+choice
+:: if Y/y errorlevel==1, if N/n errorlevel==2
+if errorlevel 1 (pause>nul)
+if errorlevel 2 (goto tool)
 
 :choice
 :: assign a number to model & connect number and model
@@ -125,10 +134,11 @@ if "%PDL_NB:~0,1%"==""(set PDL_NB=%PDL_NB:~1%)
 echo %PDL_NB%
 :: input number of model as string2,several number selectable
 set /p input=Above available types, choice number: 
+if "%input%"=="" (echo Please enter  order numbers of types. & pause>nul && goto choice)
 
 :: loop,find string2(input number) in string1(number and model)  
 for %%i in (%PDL_NB%) do call :pickup %%i 
-goto :eof
+pause
 
 
 :pickup 
