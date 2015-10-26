@@ -10,3 +10,6 @@ Todos:
 Bugs:
 1. 若"Copy from"文件夹或者"Copy to"文件夹内不含有任何内容（或者两者之间没有任何匹配的时候），
    125行左右的"echo %PDL_NB%"显示不正确。应做出相应提示。
+2. 若"Copy from"文件夹及"Copy to"文件夹内同时缺少某一文件夹时，则会有某一个标号显示为空。
+   例如同时缺少65C-9则会显示"1.65C-9FA 2. 3.C658FA 4.C658 5.C658PKI"。
+   应确保machineGF_T和machineGF_S不为空再做判断。
