@@ -9,7 +9,7 @@ set tool_path=
 echo *************************************************************
 echo 1.Input created Localize folder path in tool.(copy from)
 echo.
-echo sample:E:\Zeus-S_ECT_Project
+echo sample: E:\Zeus-S_ECT_Project
 echo *************************************************************
 
 set /p tool_path=Drag folder here: 
@@ -23,7 +23,7 @@ set src_path=
 echo *************************************************************
 echo 2.Input target Localize folder path in source.(copy to)
 echo.
-echo sample:F:\WinDrv_Src\IT5_Color_v3.0\KMSrc_2.06.34\Driver
+echo sample: F:\WinDrv_Src\IT5_Color_v3.0\KMSrc_2.06.34\Driver
 echo *************************************************************
 
 set /p src_path=Drag folder here: 
