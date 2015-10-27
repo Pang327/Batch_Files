@@ -152,9 +152,9 @@ if "%input%"=="" goto :eof
 if "%stl:~0,1%"=="%input:~0,1%" (
     echo %stl% | find "-" > nul
     if not errorlevel 1 (
-        echo %stl% | find "FA" > nul		
+        echo %stl% | find "FA" > nul
         if not errorlevel 1 (
-		    :: delete the first number in inputed number,skip to corresponding label to copy
+            :: delete the first number in inputed number,skip to corresponding label to copy
             set input=%input:~1% && call :GEN_FA_Loc) else (
             set input=%input:~1% && call :GEN_Loc
         )
