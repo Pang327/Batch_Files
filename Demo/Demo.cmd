@@ -2,18 +2,18 @@
 setlocal enabledelayedexpansion
 color 3e
 
+set choice=
 set /p p=Target(1~5): 
 
-echo %p% | find "1" > nul && echo 1 >> tmp.txt
-echo %p% | find "2" > nul && echo 2 >> tmp.txt
-echo %p% | find "3" > nul && echo 3 >> tmp.txt
-echo %p% | find "4" > nul && echo 4 >> tmp.txt
-echo %p% | find "5" > nul && echo 5 >> tmp.txt
+echo %p% | find "1" > nul && set choice=%choice% 1
+echo %p% | find "2" > nul && set choice=%choice% 2
+echo %p% | find "3" > nul && set choice=%choice% 3
+echo %p% | find "4" > nul && set choice=%choice% 4
+echo %p% | find "5" > nul && set choice=%choice% 5
 
-for /f %%i in (tmp.txt) do (
+for %%i in (%choice%) do (
     call :label%%i
 )
-del tmp.txt
 goto end
 
 :label1
